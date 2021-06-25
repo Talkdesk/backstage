@@ -130,17 +130,17 @@ export async function createRouter({
     }
   }
 
+  router.use('/:provider/', req => {
+    const { provider } = req.params;
+    throw new NotFoundError(`No auth provider registered for '${provider}'`);
+  });
+
   router.use(
     createOidcRouter({
       tokenIssuer,
       baseUrl: authUrl,
     }),
   );
-
-  router.use('/:provider/', req => {
-    const { provider } = req.params;
-    throw new NotFoundError(`No auth provider registered for '${provider}'`);
-  });
 
   return router;
 }
